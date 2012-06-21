@@ -2,6 +2,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 import datetime
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 
 class Pais(models.Model):
 	codigo = models.CharField(max_length=3, verbose_name='Código', primary_key=True)
@@ -205,8 +207,12 @@ class Postulante(models.Model):
 	fnacimiento = models.DateField(verbose_name='Fecha de nacimiento')
 	foto = models.ImageField(verbose_name='Fotografía', upload_to='postulante')
 	estadocivil = models.CharField(max_length=1, choices=(('S','Soltero'),('C','Cásado'),('D','Divorciado'),('V','Viudo')))
-	presentacion = models.TextField()
+	presentacion = models.TextField(verbose_name='Presentación')
 	
+	def get_absolute_url(self):
+		#return reverse('postulante-detail', kwargs={'pk':self.pk})
+		return HttpResponseRedirect('/')
+
 	def __unicode__(self):
 		return self.dni
 	

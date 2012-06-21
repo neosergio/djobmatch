@@ -1,5 +1,6 @@
 #encoding:utf-8
 from django.forms import ModelForm
+from django.contrib.auth.models import User
 from joboffers.models import Pais, Departamento, Provincia, Distrito
 from joboffers.models import Persona, Sede, Empresa, ContactoEmpresa, Sector
 from joboffers.models import Formacion, Especialidad, EstadoEspecialidad, RequerimientoEspecialidad
@@ -40,6 +41,12 @@ class CorreoEnviarOferta_formulario(ModelForm):
 	class Meta:
 		model = CorreoEnviarOferta
 		exclude = ('oferta',)
+
+class PostulanteFormulario(ModelForm):
+	class Meta:
+		model = Postulante
+		exclude = ('persona',)
+
 
 class amarrado(FormWizard):
 	def done(self, request, form_list):

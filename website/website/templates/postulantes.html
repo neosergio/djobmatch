@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block principal %}
+<div id='reporte_tabla'>
+<table>
+	<tr>
+		<th>Postulantes</th>
+	</tr>
+    {% for item in dato %}
+    <tr>
+    	<td><a href='{{item.id}}'>{{item}}</a></td>
+    </tr>
+    {% empty %}
+    <tr>
+    	<td>No hay postulantes registrados</td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a  class='boton' href='nueva'>Nuevo Postulante</a></p>
+</div>
+{% endblock %}

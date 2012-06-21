@@ -11,6 +11,7 @@ from joboffers.forms import Oferta_formulario, Funcion_formulario, CorreoEnviarO
 from joboffers.forms import RequerimientoEspecialidad_formulario
 from joboffers.forms import RequerimientoSoftware_formulario
 from joboffers.forms import RequerimientoIdioma_formulario
+from joboffers.forms import PostulanteFormulario
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
@@ -19,6 +20,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate, logout
 from django.core.mail import EmailMessage
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 login_url_path = '/ingreso'
 
@@ -43,7 +46,7 @@ def ingresoadmin(request):
 				if acceso.is_active:
 					login(request, acceso)
 					return HttpResponseRedirect('/administrar')
-				else:
+				else: 
 					return render_to_response('noactivo.html')
 			else:
 				return render_to_response('nousuario.html')
@@ -310,3 +313,39 @@ def publicar_oferta(request, id_oferta):
 def salir(request):
 	logout(request)
 	return HttpResponseRedirect('/')
+
+@login_required(login_url=login_url_path)
+def postulantes(request):
+	dato = Postulante.objects.all()
+	return render_to_response('postulantes.html',{'dato':dato},context_instance=RequestContext(request))
+
+@login_required(login_url=login_url_path)
+def postulante_nuevo(request):
+	if request.method == 'POST':
+		form = PostulanteFormulario(request.POST, request.FILES)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/postulantes')
+	else:
+		form = PostulanteFormulario(auto_id=True)
+	return render_to_response('postulanteform.html',{'form':form},context_instance=RequestContext(request)) 
+
+@login_required(login_url=login_url_path)
+def postulante_detalle(request, id_postulante):
+	dato = Postulante.objects.get(pk=id_postulante)
+	return render_to_response('postulantedetalle.html', {'dato':dato}, context_instance=RequestContext(request))
+
+class PostulanteNuevo(CreateView):
+	form_class = PostulanteFormulario
+	model = Postulante
+
+	def form_valid(self, form):
+		form.instance.persona = Persona.objects.get(usuario=self.request.user)
+		return super(PostulanteNuevo, self).form_valid(form)
+
+class PostulanteActualiza(UpdateView):
+	model = Postulante
+
+class PostulanteBorra(DeleteView):
+	model = Postulante
+	success_url = reverse_lazy('/')
