@@ -1,0 +1,35 @@
+<!DOCTYPE HTML >
+<html lang="ess">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block titulo %} Inicio {% endblock %} - Sistema de Colocación Laboral</title>
+	<link href='{{STATIC_URL}}iimages/blu.png' rel='shortcut icon'>
+	<link href='/static/css/base.css' rel='stylesheet'>
+	<link href='http://fonts.googleapis.com/css?family=Cabin+Condensed:400,600,500,700' rel='stylesheet' type='text/css'>
+	<link href='/static/css/redmond/jquery-ui-1.8.18.custom.css' rel='stylesheet'>
+	{% block css %}{% endblock %}
+	<script src='/static/js/jquery-1.7.1.min.js'></script>
+	<script src='/static/js/jquery-ui-1.8.18.custom.min.js'></script>
+	<script src='/static/js/gui.js'></script>
+	{% block js %}{% endblock %}
+</head>
+<body>
+	<header>
+		<div>
+			<a href='/' title='Sistema de colocación laboral'><img src='/static/images/blu.png' alt='BLU'></a>
+			<h1><a href='/' title='Sistema de colocación laboral'>Sistema de Colocación Laboral</a></h1>
+		</div>
+	</header>
+	<section>
+		<div id='principal'>
+			{% block principal %}{% endblock %}
+		</div>
+	</section>
+	<footer>
+		<div id='pie'>
+			<p>Sistema de colocación laboral. &copy; 2012</p>
+			{% block pie %}{% endblock %}
+		</div>
+	</footer>
+</body>
+</html>

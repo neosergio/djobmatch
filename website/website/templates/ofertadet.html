@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block js %}
+<script>
+	$.fx.speeds._default = 1000;
+	$(function() {
+	$( "#dialog" ).dialog({
+		autoOpen: false,
+		show: "blind",
+		hide: "explode",
+		width: 600,
+		modal: true
+	});
+	$( "#nuevaespecialidad" ).click(function() {
+		$( "#dialog" ).load('/oferta/nueva/especialidad/{{data.id}}');
+		$( "#dialog" ).dialog( "open" );
+		return false;
+	});
+	$( "#nuevafuncion" ).click(function() {
+		$( "#dialog" ).load('/oferta/nueva/funcion/{{data.id}}');
+		$( "#dialog" ).dialog( "open" );
+		return false;
+	});
+	$( "#nuevasoftware" ).click(function() {
+		$( "#dialog" ).load('/oferta/nueva/software/{{data.id}}');
+		$( "#dialog" ).dialog( "open" );
+		return false;
+	});
+	$( "#nuevaidioma" ).click(function() {
+		$( "#dialog" ).load('/oferta/nueva/idioma/{{data.id}}');
+		$( "#dialog" ).dialog( "open" );
+		return false;
+	});
+	$( "#nuevacorreo" ).click(function() {
+		$( "#dialog" ).load('/oferta/nueva/correo/{{data.id}}');
+		$( "#dialog" ).dialog( "open" );
+		return false;
+	});
+});
+</script>
+{% endblock %}
+{% block principal %}
+<h1>{{data.titulo}}</h1>
+<h2>Datos básicos</h2>
+<ul>
+	<li><strong>Solicita: </strong><em>{{data.contacto_empresa}}</em></li>
+	<li><strong>Sede: </strong><em>{{data.sede}}</em></li>
+	<li><strong>Fecha: </strong><em>{{data.fecha}}</em></li>
+	<li><strong>Días de la oferta: </strong><em>{{data.dias}}</em></li>
+	<li><strong>Vacantes: </strong><em>{{data.vacantes}}</em></li>
+	<li><strong>Descripción: </strong><em>{{data.descripcion}}</em></li>
+	<li><strong>Cargo: </strong><em>{{data.cargo}}</em></li>
+	<li><strong>Area: </strong><em>{{data.area}}</em></li>
+	<li><strong>Tipo de contrato: </strong><em>{{data.tipo_contrato}}</em></li>
+	<li><strong>Salario: </strong><em>S/. {{data.salario|default:'No se especifico el salario'}}</em></li>
+	<li><strong>Requerimiento: </strong><em>{{data.requerimiento|default:'No se especificaron requerimientos'}}</em></li>
+	<li><strong>Indicaciones: </strong><em>{{data.indicaciones|default:'No se registraron indicaciones adicionales'}}</em></li>
+	<li><strong>Beneficios: </strong><em>{{data.beneficios_oferta|default:'No se indicaron los beneficios'}}</em></li>
+</ul>
+<div id='dialog' title='Agregar datos a la oferta'></div>
+
+<h2>Especialidad</h2>
+{%for especialidad in especialidades %}
+<ul>
+	<li><em>Formación: {{especialidad.especialidad_elegida.formacion}}</em></li>
+	<li><em>Especialidad: {{especialidad.especialidad_elegida.nombre}}</em></li>
+	<li><em>Condición: {{especialidad.condicion}}</em></li>
+	<li><em>Años de experiencia: {{especialidad.anos_experiencia}}</em></li>
+</ul>
+{% empty %}
+	<p>No se especificaron especialidades aún<p>
+{% endfor %}
+{% if not data.enviado %}
+<p><button id='nuevaespecialidad'>Agregar especilialidad</button></p>
+{% endif %}
+
+<h2>Idioma</h2>
+<ul>
+{% for idioma in idiomas %}
+	<li><em>{{idioma.idioma.nombre}}</em></li>
+	<li><em>{{idioma.lectura.nombre}}</em></li>
+	<li><em>{{idioma.escritura.nombre}}</em></li>
+	<li><em>{{idioma.conversacion.nombre}}</em></li>
+{% empty %}
+	<li><em>No se especificaron los requerimientos de idioma</em></li>
+{% endfor %}
+</ul>
+{% if not data.enviado %}
+<p><button id='nuevaidioma'>Agregar requerimiento de idioma</button></p>
+{% endif %}
+
+<h2>Software</h2>
+<ul>
+{% for soft in software %}
+	<li><em>{{soft.software.nombre}}</em></li>
+	<li><em>{{soft.estado_software.nombre}}</em></li>
+{% empty %}
+	<li><em>No se especificaron requerimientos de Software</em></li>
+{% endfor %}
+</ul>
+{% if not data.enviado %}
+<p><button id='nuevasoftware'>Agregar requerimiento de Software</button></p>
+{% endif %}
+
+<h2>Funciones a realizar</h2>
+<ul>
+{%for funcion in funciones %}
+	<li><em>{{funcion.descripcion_funcion}}</em></li>
+{% empty %}
+	<li><em>No se especificaron funciones aún</em></li>
+{% endfor %}
+</ul>
+{% if not data.enviado %}
+<p><button id='nuevafuncion'>Agregar función</button></p>
+{% endif %}
+
+<h2>Correo electrónico de recepción de postulantes</h2>
+<ul>
+{%for correo in correos %}
+	<li><em>{{correo.correo}}</em></li>
+{% empty %}
+	<li><em>No se especificaron correos para el envio aún</em></li>
+{% endfor %}
+</ul>
+{% if not data.enviado %}
+<p><button id='nuevacorreo'>Agregar correo</button></p>
+{% endif %}
+
+{% if not data.enviado %}
+<p><a href='/oferta/publicar/{{data.id}}'>Publicar</a></p>
+{% else %}
+<p>Ya fue enviado no se puede modificar.</p>
+{% endif %}
+<p><a href='../'>Retornar a las ofertas</a></p>
+{% endblock %}

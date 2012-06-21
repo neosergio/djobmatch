@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block principal %}
+<div id='reporte_tabla'>
+<table>
+	<tr>
+		<th>Ofertas</th>
+		<th>Estado de envio</th>
+	</tr>
+    {% for item in data %}
+    <tr>
+    	<td><a href='{{item.id}}'>{{item}}</a></td>
+    	{% if item.enviado %}
+    	<td>Enviado</td>
+    	{% else %}
+    	<td>Aún por enviar</td>
+    	{% endif %}
+    </tr>
+    {% empty %}
+    <tr>
+    	<td>No hay ofertas registradas</td>
+    </tr>
+    {% endfor %}
+</table>
+<p><a  class='boton' href='nueva'>Nueva Oferta</a></p>
+</div>
+{% endblock %}

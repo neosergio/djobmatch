@@ -1,0 +1,14 @@
+{% extends 'baseuser.html'%}
+{% block titulo %} Administrar {% endblock %}
+{% block principal %}
+	{% if postulante %}
+		<p id='postulante'>
+			<a href=''>¿Buscas algún puesto de trabajo?</a>
+		</p>
+	{% endif %}
+	{% if ofertante %}
+		<p id='ofertante'>
+			<a href='/oferta'>¿Deseas publicar una oferta laboral?</a>
+		</p>
+	{% endif %}
+{% endblock %}
