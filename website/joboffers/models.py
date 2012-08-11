@@ -208,10 +208,6 @@ class Postulante(models.Model):
 	foto = models.ImageField(verbose_name='Fotografía', upload_to='postulante')
 	estadocivil = models.CharField(max_length=1, choices=(('S','Soltero'),('C','Cásado'),('D','Divorciado'),('V','Viudo')))
 	presentacion = models.TextField(verbose_name='Presentación')
-	
-	def get_absolute_url(self):
-		#return reverse('postulante-detail', kwargs={'pk':self.pk})
-		return HttpResponseRedirect('/')
 
 	def __unicode__(self):
 		return self.dni

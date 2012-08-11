@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from joboffers.forms import amarrado, Oferta_formulario, Funcion_formulario, CorreoEnviarOferta_formulario
-from joboffers.views import PostulanteNuevo, PostulanteActualiza, PostulanteBorra
+#from joboffers.views import PostulanteNuevo, PostulanteActualiza, PostulanteBorra
 from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
@@ -28,5 +28,4 @@ urlpatterns = patterns('',
     url(r'^postulante/$', 'joboffers.views.postulantes'),
     url(r'^postulante/nuevo/$', 'joboffers.views.postulante_nuevo'),
     url(r'^postulante/(?P<id_postulante>\d+)/$', 'joboffers.views.postulante_detalle'),
-    url(r'^postulante/add/$', PostulanteNuevo.as_view(), name='postulante_add'),
 )

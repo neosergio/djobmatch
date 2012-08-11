@@ -324,7 +324,12 @@ def postulante_nuevo(request):
 	if request.method == 'POST':
 		form = PostulanteFormulario(request.POST, request.FILES)
 		if form.is_valid():
-			form.save()
+			persona = request.user
+			dni = form.cleaned_data['dni']
+			fnacimiento = form.cleaned_data['fnacimiento']
+			foto = form.cleaned_data['foto']
+			estadocivil = form.cleaned_data['estadocivil']
+			presentacion = form.cleaned_data['presentacion']
 			return HttpResponseRedirect('/postulantes')
 	else:
 		form = PostulanteFormulario(auto_id=True)
@@ -334,18 +339,3 @@ def postulante_nuevo(request):
 def postulante_detalle(request, id_postulante):
 	dato = Postulante.objects.get(pk=id_postulante)
 	return render_to_response('postulantedetalle.html', {'dato':dato}, context_instance=RequestContext(request))
-
-class PostulanteNuevo(CreateView):
-	form_class = PostulanteFormulario
-	model = Postulante
-
-	def form_valid(self, form):
-		form.instance.persona = Persona.objects.get(usuario=self.request.user)
-		return super(PostulanteNuevo, self).form_valid(form)
-
-class PostulanteActualiza(UpdateView):
-	model = Postulante
-
-class PostulanteBorra(DeleteView):
-	model = Postulante
-	success_url = reverse_lazy('/')
