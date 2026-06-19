@@ -1,0 +1,52 @@
+[project]
+name = "djobmatch"
+version = "0.1.0"
+description = "Job parser + explainable resume/job matcher REST API"
+readme = "README.md"
+requires-python = "==3.14.*"
+dependencies = [
+    "django>=6.0,<6.1",
+    "django-ninja>=1.6,<2.0",
+    "django-environ>=0.14,<0.15",
+    "pgvector>=0.4,<0.5",
+    "psycopg[binary]>=3.2,<4.0",
+    "openai>=2.43,<3.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15,<0.16",
+    "pytest>=9.1,<10.0",
+    "pytest-django>=4.12,<5.0",
+]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+src = ["."]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "DJ",  # flake8-django
+    "RUF", # ruff-specific
+]
+ignore = [
+    "RUF012", # mutable class attrs need ClassVar — noisy for Django Meta
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*/migrations/*" = ["E501"]
+"tests/*" = ["S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+addopts = "-q"
