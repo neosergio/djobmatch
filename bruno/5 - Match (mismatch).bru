@@ -1,0 +1,34 @@
+meta {
+  name: 5 - Match (mismatch)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/match
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "resume_id": {{resume_id}},
+    "job_id": {{mismatch_job_id}}
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://127.0.0.1:8000
+}
+
+assert {
+  res.status: eq 200
+  res.body.score: isNumber
+}
+
+docs {
+  Scores the backend-engineer resume (from "2 - Parse Resume") against the
+  unrelated pastry-chef job (from "4 - Parse Job (mismatch)"). Expect a clearly
+  LOWER score than "3 - Match" and an explanation full of gaps. Run requests
+  2 and 4 first so `resume_id` and `mismatch_job_id` are populated.
+}

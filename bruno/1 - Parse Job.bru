@@ -1,0 +1,38 @@
+meta {
+  name: 1 - Parse Job
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/jobs/parse
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "raw_text": "Senior Backend Engineer (Python/Django). 5+ years building REST APIs at scale. Must know PostgreSQL, Docker, AWS, Celery. Strong communication and ownership. Salary 90,000 - 120,000 USD. Fast-paced startup, wear many hats, occasional weekend on-call."
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://127.0.0.1:8000
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isDefined
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    bru.setEnvVar("job_id", res.getBody().id);
+  }
+}
+
+docs {
+  Parses raw job-posting text into structured JSON via the LLM and stores the
+  embedding. Captures the returned id into the `job_id` env var for the match step.
+  Run it twice: the second response should have "cached": true and the same id.
+}

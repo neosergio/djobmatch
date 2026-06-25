@@ -1,0 +1,38 @@
+meta {
+  name: 2 - Parse Resume
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/resumes/parse
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "raw_text": "Jane Doe — Software Engineer. 6 years experience. Built and scaled Django REST APIs serving millions of requests. Deep PostgreSQL, Docker, and AWS background; introduced Celery task queues. Led a team of 3, mentored juniors. Previous titles: Backend Engineer, Senior Software Engineer."
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://127.0.0.1:8000
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isDefined
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    bru.setEnvVar("resume_id", res.getBody().id);
+  }
+}
+
+docs {
+  Parses raw resume text into structured JSON via the LLM and stores the embedding.
+  Captures the returned id into the `resume_id` env var. Re-running returns the same
+  id with "cached": true.
+}

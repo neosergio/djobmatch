@@ -1,0 +1,37 @@
+meta {
+  name: 4 - Parse Job (mismatch)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/jobs/parse
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "raw_text": "Pastry Chef — boutique bakery. 4+ years hands-on experience in viennoiserie and laminated doughs. Must master croissants, sourdough, chocolate tempering and cake decoration. Early morning shifts. Food-safety certification required. Warm, fast-paced kitchen team. Salary 32,000 - 40,000 EUR."
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://127.0.0.1:8000
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isDefined
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    bru.setEnvVar("mismatch_job_id", res.getBody().id);
+  }
+}
+
+docs {
+  A pastry-chef posting that has nothing to do with the backend-engineer resume.
+  Captures its id into `mismatch_job_id` for the mismatch match request.
+}
