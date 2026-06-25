@@ -49,4 +49,4 @@ quote-style = "double"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
 python_files = ["test_*.py"]
-addopts = "-q"
+addopts = "-q --reuse-db"
