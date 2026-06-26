@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> Author / owner: Sergio Infante (<rsinfante@gmail.com>). Copyright © 2026 Sergio Infante.
+
 ## Commands
 
 All commands run through `uv` (never `pip`/`poetry`). The toolchain pins Python 3.14.

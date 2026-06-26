@@ -1,5 +1,8 @@
 # djobmatch
 
+**Author:** Sergio Infante (<rsinfante@gmail.com>)
+Copyright © 2026 Sergio Infante. All rights reserved.
+
 A small REST API (Django + Django Ninja) with two combined features:
 
 1. **Job parser** — `POST /api/jobs/parse` turns the raw text of a job posting into
@@ -77,3 +80,8 @@ cosine-distance scoring.
 uv run ruff format .
 uv run ruff check .
 ```
+
+## License
+
+Copyright © 2026 Sergio Infante. Licensed under the Apache License, Version 2.0 —
+see [`LICENSE`](./LICENSE) and [`NOTICE`](./NOTICE).
